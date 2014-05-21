@@ -1,0 +1,3 @@
+[submodule "vendor/libev"]
+	path = vendor/libev
+	url = git@github.com:ksophocleous/libev.git
