@@ -11,8 +11,6 @@ Currently there are only 3:
 socket example:
 
 `
-#include <lev/lev.h>
-
 int main(int argc, char** argv)
 {
 	lev::loop loop;
