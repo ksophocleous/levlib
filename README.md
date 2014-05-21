@@ -30,5 +30,7 @@ int main(int argc, char** argv)
 	socket.SetActiveEvents(fdsocket, lev::socket::EventRead | lev::socket::EventWrite);
 
 	loop.loop();
+	
+	return 0;
 }
 ```
