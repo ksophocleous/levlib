@@ -8,6 +8,9 @@ Currently there are only 3:
 * socket
 * timer
 
+`git clone` then
+`git submodule update --init` for vendor/libev (currently wont work with the system installed libev)
+
 socket example:
 
 ```C++
