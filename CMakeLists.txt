@@ -13,6 +13,7 @@ set(src
 	"src/loop.cpp"
 	"src/timer.cpp"
 	"src/socket.cpp"
+	"src/signal_break.cpp"
 	)
 
 list(APPEND include_dirs "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -21,7 +22,9 @@ set(public_hdrs
 	"include/lev/lev.h"
 	"include/lev/loop.h"
 	"include/lev/timer.h"
-	"include/lev/socket.h")
+	"include/lev/socket.h"
+	"include/lev/signal_break.h"
+	)
 
 set(hdrs
 	)

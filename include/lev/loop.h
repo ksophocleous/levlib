@@ -14,6 +14,7 @@ namespace lev
 		public:
 			friend class timer;
 			friend class socket;
+			friend class signal_break;
 
 			loop();
 

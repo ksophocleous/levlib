@@ -9,3 +9,4 @@
 #include "lev/loop.h"
 #include "lev/socket.h"
 #include "lev/timer.h"
+#include "lev/signal_break.h"
