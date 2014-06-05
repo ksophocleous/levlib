@@ -27,7 +27,10 @@ namespace lev
 	int ToFileDescriptor(LEV_SOCKET socket)
 	{
 #ifdef _WIN32
-		return _open_osfhandle(socket, 0);
+		int osfd = _open_osfhandle(socket, 0);
+		if (osfd == -1)
+			throw std::runtime_error("_open_osfhandle failed");
+		return osfd;
 #else
 		return socket;
 #endif
