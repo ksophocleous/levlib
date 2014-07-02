@@ -10,18 +10,47 @@ namespace lev
 	void ioresponder(ev::io& ioobj, int revents)
 	{
 		socket *base = reinterpret_cast<socket *>(ioobj.data);
+		if (base == nullptr)
+			return;
 
-		if (base)
+		try
 		{
+			base->m_bInResponder = true;
+
 			if ((revents & ev::READ) && base->OnReadEvent)
-				base->OnReadEvent();
+				if (base->OnReadEvent() == false)
+					base->DisableEvents(lev::socket::EventRead);
 
 			if ((revents & ev::WRITE) && base->OnWriteEvent)
-				base->OnWriteEvent();
+				if (base->OnWriteEvent() == false)
+					base->DisableEvents(lev::socket::EventWrite);
 
 			if ((revents & ev::ERROR) && base->OnErrorEvent)
 				base->OnErrorEvent();
 		}
+		catch (...)
+		{
+			base->m_bInResponder = false;
+
+			if (base->OnException)
+				base->OnException(std::current_exception());
+			else
+				throw;
+		}
+
+		base->m_bInResponder = false;
+
+		if (base->m_bDestroyScheduled && base->OnReadyToDestroy)
+			base->OnReadyToDestroy();
+	}
+
+	void socket::Destroy()
+	{
+		if (m_bInResponder)
+			m_bDestroyScheduled = true;
+		else
+			if (OnReadyToDestroy)
+				OnReadyToDestroy();
 	}
 
 	int ToFileDescriptor(LEV_SOCKET socket)
@@ -36,7 +65,7 @@ namespace lev
 #endif
 	}
 
-	socket::socket(loop& loop) : m_iowatcher(loop.m_loop), m_events(0)
+	socket::socket(loop& loop) : m_iowatcher(loop.m_loop), m_events(0), m_bInResponder(false), m_bDestroyScheduled(false)
 	{
 		m_iowatcher.set<ioresponder>(this);
 	}
@@ -66,7 +95,11 @@ namespace lev
 			int revents = 0;
 			if ((m_events & EventRead) != 0) revents |= ev::READ;
 			if ((m_events & EventWrite) != 0) revents |= ev::WRITE;
-			m_iowatcher.start(m_fd, revents);
+
+			if (revents == 0)
+				m_iowatcher.stop();
+			else
+				m_iowatcher.start(m_fd, revents);
 		}
 	}
 };
