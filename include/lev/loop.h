@@ -22,6 +22,8 @@ namespace lev
 
 			void Loop();
 
+			struct ev_loop* raw() { return m_loop.raw_loop; }
+
 		private:
 			ev::default_loop m_loop;
 	};
