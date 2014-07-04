@@ -14,6 +14,7 @@ set(src
 	"src/timer.cpp"
 	"src/socket.cpp"
 	"src/signal_break.cpp"
+	"src/idle.cpp"
 	)
 
 list(APPEND include_dirs "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -24,6 +25,7 @@ set(public_hdrs
 	"include/lev/timer.h"
 	"include/lev/socket.h"
 	"include/lev/signal_break.h"
+	"include/lev/idle.h"
 	)
 
 set(hdrs
