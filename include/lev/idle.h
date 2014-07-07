@@ -7,7 +7,7 @@ namespace lev
 	class idle
 	{
 		public:
-			idle(lev::loop& loop);
+			idle(loop& loop);
 
 			std::function<void()> on_idle;
 
