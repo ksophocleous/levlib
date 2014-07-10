@@ -33,7 +33,6 @@ set(hdrs
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/libev" "${CMAKE_BINARY_DIR}/vendor/libev")
 list(APPEND libraries "libev")
-list(APPEND include_dirs "${CMAKE_SOURCE_DIR}/vendor/libev")
 
 list(APPEND libraries "${platformlibs}")
 
@@ -41,12 +40,10 @@ add_library(levlib STATIC ${src} ${hdrs} ${public_hdrs})
 
 set_target_properties(levlib PROPERTIES 
 	INCLUDE_DIRECTORIES "${include_dirs}"
+	INTERFACE_INCLUDE_DIRECTORIES "${include_dirs}"
 	PUBLIC_HEADER "${public_hdrs}"
 	VERSION ${MAJOR_VERSION}.${MINOR_VERSION}
 	SOVERSION ${MAJOR_VERSION}
 )
 
 target_link_libraries(levlib ${libraries})
-
-#include(print_properties.cmake)
-#echo_target(levlib)
